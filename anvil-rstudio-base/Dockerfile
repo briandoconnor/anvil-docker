@@ -37,4 +37,10 @@ RUN sed -i 's/alwaysSaveHistory="0"/alwaysSaveHistory="1"/g'  $RSTUDIO_USERSETTI
 && sed -i 's/loadRData="0"/loadRData="1"/g' $RSTUDIO_USERSETTING \
 && sed -i 's/saveAction="0"/saveAction="1"/g' $RSTUDIO_USERSETTING
 
+RUN git clone https://github.com/galaxyproject/galaxy.git \
+&& cp /galaxy/config/galaxy.yml.sample /galaxy/config/galaxy.yml \
+&& sed -i 's/127.0.0.1:8080/0.0.0.0:8001/g' /galaxy/config/galaxy.yml
+
 EXPOSE $RSTUDIO_PORT
+
+CMD ["/galaxy/run.sh"]
