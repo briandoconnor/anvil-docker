@@ -2,50 +2,50 @@
 ## load /etc/environment vars first:
 for line in $( cat /etc/environment ) ; do export $line > /dev/null; done
 
-#if [ -z "$RSTUDIO_HTTP_REFERER" ]
-if [[ $HOSTNAME = saturn* ]]
-then
-      #echo "\$RSTUDIO_HTTP_REFERER is empty"
-      RSTUDIO_HTTP_REFERER="https://notebooks.firecloud.org/proxy/anvil-stage-demo/$HOSTNAME/rstudio/"
+export SATURNHOST=`hostname`
+echo "HOST IS $SATURNHOST"
 
-      # extract the protocol
-      proto="$(echo $RSTUDIO_HTTP_REFERER | grep :// | sed -e's,^\(.*://\).*,\1,g')"
-      # remove the protocol
-      url="$(echo ${RSTUDIO_HTTP_REFERER/$proto/})"
-      # extract the user (if any)
-      user="$(echo $url | grep @ | cut -d@ -f1)"
-      # extract the host and port
-      hostport="$(echo ${url/$user@/} | cut -d/ -f1)"
-      # by request host without port
-      host="$(echo $hostport | sed -e 's,:.*,,g')"
-      # by request - try to extract the port
-      port="$(echo $hostport | sed -e 's,^.*:,:,g' -e 's,.*:\([0-9]*\).*,\1,g' -e 's,[^0-9],,g')"
-      # extract the path (if any)
-      path1="$(echo $url | grep / | cut -d/ -f2-)"
-      path="${path1%?}"
+RSTUDIO_HTTP_REFERER="https://notebooks.firecloud.org/proxy/anvil-stage-demo/$HOSTNAME/rstudio/"
+echo "\$RSTUDIO_HTTP_REFERER is $RSTUDIO_HTTP_REFERER"
 
-      echo "url: $url"
-      echo "  proto: $proto"
-      echo "  user: $user"
-      echo "  host: $host"
-      echo "  port: $port"
-      echo "  path: $path"
+# extract the protocol
+proto="$(echo $RSTUDIO_HTTP_REFERER | grep :// | sed -e's,^\(.*://\).*,\1,g')"
+# remove the protocol
+url="$(echo ${RSTUDIO_HTTP_REFERER/$proto/})"
+# extract the user (if any)
+user="$(echo $url | grep @ | cut -d@ -f1)"
+# extract the host and port
+hostport="$(echo ${url/$user@/} | cut -d/ -f1)"
+# by request host without port
+host="$(echo $hostport | sed -e 's,:.*,,g')"
+# by request - try to extract the port
+port="$(echo $hostport | sed -e 's,^.*:,:,g' -e 's,.*:\([0-9]*\).*,\1,g' -e 's,[^0-9],,g')"
+# extract the path (if any)
+path1="$(echo $url | grep / | cut -d/ -f2-)"
+path="${path1%?}"
 
-      # now that we have the path variable can modify the galaxy config
-      #if ! grep -q "socket:" "/galaxy/config/galaxy.yml"; then
-      #  sed -i "s|uwsgi:|uwsgi:\n  socket: unix:///srv/galaxy/var/uwsgi.sock|g" /galaxy/config/galaxy.yml
-      #fi
-      #if ! grep -q "cookie_path:" "/galaxy/config/galaxy.yml"; then
-      #  sed -i "s|galaxy:|galaxy:\n  cookie_path: /${path}\n|g" /galaxy/config/galaxy.yml
-      #fi
-      if grep -q '/proxy/anvil-stage-demo/saturn-' "/galaxy/config/galaxy.yml"; then
-        echo "FOUND";
-        sed -i "s|  mount: /.*=galaxy.webapps.galaxy.buildapp:uwsgi_app()|  mount: /${path}=galaxy.webapps.galaxy.buildapp:uwsgi_app()|g" /galaxy/config/galaxy.yml
-      fi
-      sed -i "s|manage-script-name: false|manage-script-name: true|g" /galaxy/config/galaxy.yml
-      sed -i "s|  module: galaxy.webapps.galaxy.buildapp:uwsgi_app()|  #module: galaxy.webapps.galaxy.buildapp:uwsgi_app()|g" /galaxy/config/galaxy.yml
-      sed -i "s|#mount: /galaxy=galaxy.webapps.galaxy.buildapp:uwsgi_app()|mount: /${path}=galaxy.webapps.galaxy.buildapp:uwsgi_app()|g" /galaxy/config/galaxy.yml
+echo "url: $url"
+echo "  proto: $proto"
+echo "  user: $user"
+echo "  host: $host"
+echo "  port: $port"
+echo "  path: $path"
 
+# now that we have the path variable can modify the galaxy config
+#if ! grep -q "socket:" "/galaxy/config/galaxy.yml"; then
+#  sed -i "s|uwsgi:|uwsgi:\n  socket: unix:///srv/galaxy/var/uwsgi.sock|g" /galaxy/config/galaxy.yml
+#fi
+#if ! grep -q "cookie_path:" "/galaxy/config/galaxy.yml"; then
+#  sed -i "s|galaxy:|galaxy:\n  cookie_path: /${path}\n|g" /galaxy/config/galaxy.yml
+#fi
+if grep -q '/proxy/anvil-stage-demo/saturn-' "/galaxy/config/galaxy.yml"; then
+  echo "FOUND";
+  sed -i "s|  mount: /.*=galaxy.webapps.galaxy.buildapp:uwsgi_app()|  mount: /${path}=galaxy.webapps.galaxy.buildapp:uwsgi_app()|g" /galaxy/config/galaxy.yml
 fi
+sed -i "s|manage-script-name: false|manage-script-name: true|g" /galaxy/config/galaxy.yml
+sed -i "s|  module: galaxy.webapps.galaxy.buildapp:uwsgi_app()|  #module: galaxy.webapps.galaxy.buildapp:uwsgi_app()|g" /galaxy/config/galaxy.yml
+sed -i "s|#mount: /galaxy=galaxy.webapps.galaxy.buildapp:uwsgi_app()|mount: /${path}=galaxy.webapps.galaxy.buildapp:uwsgi_app()|g" /galaxy/config/galaxy.yml
+
+
 
 exec /galaxy/run.sh
