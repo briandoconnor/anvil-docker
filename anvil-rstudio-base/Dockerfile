@@ -39,15 +39,14 @@ RUN sed -i 's/alwaysSaveHistory="0"/alwaysSaveHistory="1"/g'  $RSTUDIO_USERSETTI
 
 RUN git clone -b release_20.01 https://github.com/galaxyproject/galaxy.git \
 && cp /galaxy/config/galaxy.yml.sample /galaxy/config/galaxy.yml \
-&& sed -i 's/127.0.0.1:8080/0.0.0.0:8001/g' /galaxy/config/galaxy.yml
+&& sed -i 's/127.0.0.1:8080/0.0.0.0:8001/g' /galaxy/config/galaxy.yml \
+&& cd /galaxy \
+&& bash ./scripts/common_startup.sh
 
-#RUN sed -i 's:/bin/importas:/galaxy/run.sh \&\n/bin/importas:g' /init
-
-RUN sed -i 's:8001:8001:g' /etc/rstudio/rserver.conf
-
-ADD galaxy-server /etc/init.d/galaxy-server
-
-RUN chmod a+x /etc/init.d/galaxy-server
+## Set up galaxy init scripts
+RUN mkdir -p /etc/services.d/galaxy
+ADD finish /etc/services.d/galaxy/finish
+ADD run /etc/services.d/galaxy/run
 
 EXPOSE $RSTUDIO_PORT
 EXPOSE 8002
