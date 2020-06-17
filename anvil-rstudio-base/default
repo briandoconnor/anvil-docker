@@ -10,6 +10,10 @@ server {
         server_name _;
         set $galaxy_root /galaxy;
 
+				location /rstudio/ {
+						proxy_pass http://localhost:8002/;
+				}
+
         location /galaxypath {
                 # First attempt to serve request as file, then
                 # as directory, then fall back to displaying a 404.
