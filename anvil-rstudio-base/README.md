@@ -8,6 +8,8 @@
 docker build -t briandoconnor/anvil-rstudio-base:1.9 .
 
 docker run -it --rm -p 8001:8001 briandoconnor/anvil-rstudio-base:1.9
+
+docker push briandoconnor/anvil-rstudio-base:1.9
 ```
 
 Then look in a browser at:
