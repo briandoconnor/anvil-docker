@@ -43,7 +43,7 @@ if grep -q '/proxy/anvil-stage-demo/saturn-' "/galaxy/config/galaxy.yml"; then
   echo "FOUND";
   sed -i "s|  mount: /.*=galaxy.webapps.galaxy.buildapp:uwsgi_app()|  mount: /${path}=galaxy.webapps.galaxy.buildapp:uwsgi_app()|g" /galaxy/config/galaxy.yml
 fi
-sed -i "s|manage-script-name: false|manage-script-name: true\n  socket: /galaxy/var/uwsgi.sock|g" /galaxy/config/galaxy.yml
+sed -i "s|manage-script-name: false|manage-script-name: true\n  socket: /galaxy/var/uwsgi.sock\n  chmod-socket: 666|g" /galaxy/config/galaxy.yml
 sed -i "s|  module: galaxy.webapps.galaxy.buildapp:uwsgi_app()|  #module: galaxy.webapps.galaxy.buildapp:uwsgi_app()|g" /galaxy/config/galaxy.yml
 sed -i "s|#mount: /galaxy=galaxy.webapps.galaxy.buildapp:uwsgi_app()|mount: /${path}=galaxy.webapps.galaxy.buildapp:uwsgi_app()|g" /galaxy/config/galaxy.yml
 
