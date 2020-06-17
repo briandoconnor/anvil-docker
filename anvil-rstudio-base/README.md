@@ -5,9 +5,9 @@
 # Galaxy
 
 ```
-docker build -t briandoconnor/anvil-rstudio-base:1.8 .
+docker build -t briandoconnor/anvil-rstudio-base:1.9 .
 
-docker run -it -e PASSWORD=foobar --rm -p 8001:8001 -p 8002:8002 -v `pwd`/run:/etc/services.d/galaxy/run briandoconnor/anvil-rstudio-base:1.8
+docker run -it --rm -p 8001:8001 briandoconnor/anvil-rstudio-base:1.9
 ```
 
 Then look in a browser at:
