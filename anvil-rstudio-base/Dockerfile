@@ -48,6 +48,16 @@ RUN mkdir -p /etc/services.d/galaxy
 ADD finish /etc/services.d/galaxy/finish
 ADD run /etc/services.d/galaxy/run
 
+## setup nginx
+RUN sed -i 's/127.0.0.1:8001/0.0.0.0:8080/g' /galaxy/config/galaxy.yml
+RUN apt-get update && apt-get install -yq --no-install-recommends nginx
+
+# /proxy/anvil-stage-demo/556f079a44bc/rstudio
+ADD default /etc/nginx/sites-available/default
+
+## TO REMOVE
+RUN apt-get update && apt-get install -yq --no-install-recommends vim
+
 EXPOSE $RSTUDIO_PORT
 EXPOSE 8002
 

@@ -46,6 +46,9 @@ sed -i "s|manage-script-name: false|manage-script-name: true|g" /galaxy/config/g
 sed -i "s|  module: galaxy.webapps.galaxy.buildapp:uwsgi_app()|  #module: galaxy.webapps.galaxy.buildapp:uwsgi_app()|g" /galaxy/config/galaxy.yml
 sed -i "s|#mount: /galaxy=galaxy.webapps.galaxy.buildapp:uwsgi_app()|mount: /${path}=galaxy.webapps.galaxy.buildapp:uwsgi_app()|g" /galaxy/config/galaxy.yml
 
+# deal with nginx settings
+sed -i "s|galaxypath|${path}|g" /etc/nginx/sites-available/default
 
+/etc/init.d/nginx restart
 
 exec /galaxy/run.sh

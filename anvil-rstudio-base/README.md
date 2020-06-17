@@ -4,9 +4,17 @@
 
 # Galaxy
 
+```
 docker build -t briandoconnor/anvil-rstudio-base:1.8 .
 
-docker run -it -e PASSWORD=foobar -e RSTUDIO_HTTP_REFERER=https://notebooks.firecloud.org/proxy/anvil-stage-demo/saturn-3fdd50a0-d18e-44e7-8e16-e23d73629edb/rstudio/ --rm -p 8001:8001 -p 8002:8002 -v `pwd`/run:/etc/services.d/galaxy/run briandoconnor/anvil-rstudio-base:1.8
+docker run -it -e PASSWORD=foobar --rm -p 8001:8001 -p 8002:8002 -v `pwd`/run:/etc/services.d/galaxy/run briandoconnor/anvil-rstudio-base:1.8
+```
+
+Then look in a browser at:
+
+    http://localhost:8001/proxy/anvil-stage-demo/556f079a44bc/rstudio/
+
+Replace 556f079a44bc with the docker container hostname
 
 # AnVIL RStudio Docker Image
 
