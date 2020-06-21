@@ -52,7 +52,7 @@ sed -i "s|#mount: /galaxy=galaxy.webapps.galaxy.buildapp:uwsgi_app()|mount: /${p
 sed -i "s|galaxypath|${path}|g" /etc/nginx/sites-available/default
 
 # deal with html
-sed -i "s|galaxypath|${path}|g" /var/www/html/index.nginx-debian.html
+sed -i "s|galaxypath|${path}/myg|g" /var/www/html/index.nginx-debian.html
 
 
 /etc/init.d/nginx restart
