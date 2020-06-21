@@ -52,11 +52,14 @@ ADD run /etc/services.d/galaxy/run
 RUN sed -i 's/0.0.0.0:8001/0.0.0.0:8080/g' /galaxy/config/galaxy.yml
 RUN apt-get update && apt-get install -yq --no-install-recommends nginx
 
+## TO REMOVE
+RUN apt-get update && apt-get install -yq --no-install-recommends vim
+
 # /proxy/anvil-stage-demo/556f079a44bc/rstudio
 ADD default /etc/nginx/sites-available/default
 
-## TO REMOVE
-RUN apt-get update && apt-get install -yq --no-install-recommends vim
+ADD index.nginx-debian.html /var/www/html/index.nginx-debian.html
+
 
 EXPOSE $RSTUDIO_PORT
 EXPOSE 8002
