@@ -38,6 +38,7 @@ echo "  path: $path"
 #if ! grep -q "cookie_path:" "/galaxy/config/galaxy.yml"; then
 #  sed -i "s|galaxy:|galaxy:\n  cookie_path: /${path}\n|g" /galaxy/config/galaxy.yml
 #fi
+# /proxy/anvil-stage-demo/saturn-e666d1b3-bca3-48d8-86b5-fa14ea944c20/rstudio/
 mkdir -p /galaxy/var/
 if grep -q '/proxy/anvil-stage-demo/saturn-' "/galaxy/config/galaxy.yml"; then
   echo "FOUND";
