@@ -13,12 +13,15 @@ server {
 				location / {
 				                # First attempt to serve request as file, then
 				                # as directory, then fall back to displaying a 404.
-				                # try_files $uri $uri/ =404;
-												proxy_pass http://localhost:8001/galaxypath/;
+				                try_files $uri $uri/ =404;
 				        }
 
 				location /rstudio/ {
 						proxy_pass http://localhost:8002/;
+				}
+
+				location /galaxy/ {
+						proxy_pass http://localhost:8001/galaxypath/;
 				}
 
         location /galaxypath {
