@@ -37,6 +37,6 @@ server {
         #####rewrite ^/$ /galaxypath/ last;
 				####rewrite ^/myg$ /galaxypath/ last;
         ####rewrite ^/myg/$ /galaxypath/ last;
-        rewrite ^/galaxypath$ /galaxypath/ last;
+        ####rewrite ^/galaxypath$ /galaxypath/ last;
 
 }

@@ -62,6 +62,9 @@ ADD index.nginx-debian.html /var/www/html/index.nginx-debian.html
 
 ADD rollback.sh /root/
 
+RUN adduser rstudio sudo
+RUN echo "rstudio  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
 EXPOSE $RSTUDIO_PORT
 EXPOSE 8002
 
