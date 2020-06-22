@@ -55,7 +55,7 @@ sed -i "s|galaxypath|${path}|g" /etc/nginx/sites-available/default
 
 # deal with html
 cp /var/www/html/index.nginx-debian.html /var/www/index.nginx-debian.html.back
-sed -i "s|galaxypath|${path}/myg|g" /var/www/html/index.nginx-debian.html
+sed -i "s|galaxypath|${path}|g" /var/www/html/index.nginx-debian.html
 
 
 /etc/init.d/nginx restart
