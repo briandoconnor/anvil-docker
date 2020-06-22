@@ -60,6 +60,7 @@ ADD default /etc/nginx/sites-available/default
 
 ADD index.nginx-debian.html /var/www/html/index.nginx-debian.html
 
+ADD rollback.sh /root/
 
 EXPOSE $RSTUDIO_PORT
 EXPOSE 8002
