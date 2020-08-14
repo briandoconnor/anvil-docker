@@ -65,6 +65,13 @@ ADD rollback.sh /root/
 RUN adduser rstudio sudo
 RUN echo "rstudio  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
+# xterm.js setup
+RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+RUN apt-get update && apt-get install -yq --no-install-recommends nodejs
+RUN cd /var/www/html && mkdir terminal && npm install xterm
+ADD terminal.html /var/www/html/terminal/
+
+
 EXPOSE $RSTUDIO_PORT
 EXPOSE 8002
 

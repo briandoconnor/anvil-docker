@@ -2,13 +2,23 @@
 | --- | --- | --- | --- |
 | 0.0.3 | us.gcr.io/anvil-gcr-public/anvil-rstudio-base:0.0.3 | 05/08/2020 | Contact the [Interactive Analysis Team](mailto:workbench-interactive-analysis@broadinstitute.org) |
 
-# Galaxy
+# Galaxy, RStudio, Terminal Combo Image
+
+I'm hosting these on Dockerhub under [briandoconnor/anvil-rstudio-base](https://hub.docker.com/repository/docker/briandoconnor/anvil-rstudio-base).
+
+The commands below assume 1.9 is the current version, look at Docker Hub to see what version I'm on.
 
 ```
+# login to dockerhub
+docker login
+
+# build the image locally
 docker build -t briandoconnor/anvil-rstudio-base:1.9 .
 
+# try running the image, this will finish the install
 docker run -it --rm -p 8001:8001 briandoconnor/anvil-rstudio-base:1.9
 
+# now push to Dockerhub... normally I would have Dockerhub build this but the script I'm using to launch galaxy does install some additional stuff on first run. So I want to push the image after first run instead of automatically building.  In the long term this needs to be eliminated but OK for PoC.
 docker push briandoconnor/anvil-rstudio-base:1.9
 ```
 
@@ -19,6 +29,16 @@ Then look in a browser at:
 Replace 556f079a44bc with the docker container hostname
 
 It also works to just go to local host on 8001 (nginx rewrites the URLs)
+
+## Terminal
+
+See https://github.com/microsoft/node-pty/tree/master/examples/electron
+for the code I'm using for a basic terminal
+
+## finding dependencies
+
+This [site](https://packages.debian.org/search?mode=path&suite=buster&section=all&arch=any&searchon=contents&keywords=libasound.so.2) was very useful for finding packages 
+
 
 # AnVIL RStudio Docker Image
 
