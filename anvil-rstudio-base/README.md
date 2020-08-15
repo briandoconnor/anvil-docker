@@ -35,9 +35,20 @@ It also works to just go to local host on 8001 (nginx rewrites the URLs)
 See https://github.com/microsoft/node-pty/tree/master/examples/electron
 for the code I'm using for a basic terminal
 
+See https://github.com/tsl0922/ttyd/wiki/Example-Usage for a better version
+
+```
+apt-get update; apt-get install build-essential python3-dev nodejs 
+
+
+```
+
+
 ## finding dependencies
 
-This [site](https://packages.debian.org/search?mode=path&suite=buster&section=all&arch=any&searchon=contents&keywords=libasound.so.2) was very useful for finding packages 
+This [site](https://packages.debian.org/search?mode=path&suite=buster&section=all&arch=any&searchon=contents&keywords=libasound.so.2) was very useful for finding packages
+
+
 
 
 # AnVIL RStudio Docker Image

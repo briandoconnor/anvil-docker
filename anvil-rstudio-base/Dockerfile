@@ -66,11 +66,17 @@ RUN adduser rstudio sudo
 RUN echo "rstudio  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # xterm.js setup
-RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-RUN apt-get update && apt-get install -yq --no-install-recommends nodejs
-RUN cd /var/www/html && mkdir terminal && npm install xterm
-ADD terminal.html /var/www/html/terminal/
+#RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+#RUN apt-get update && apt-get install -yq --no-install-recommends build-essential python3-dev nodejs
+#RUN cd /var/www/html && mkdir terminal && npm install xterm
+#ADD terminal.html /var/www/html/terminal/
 
+# ttyd install
+RUN mkdir /terminal && wget -O /terminal/ttyd https://github.com/tsl0922/ttyd/releases/download/1.6.1/ttyd_linux.x86_64
+## Set up galaxy init scripts
+RUN mkdir -p /etc/services.d/terminal
+ADD tfinish /etc/services.d/terminal/finish
+ADD trun /etc/services.d/terminal/run
 
 EXPOSE $RSTUDIO_PORT
 EXPOSE 8002
