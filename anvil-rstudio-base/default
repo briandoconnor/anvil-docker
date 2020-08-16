@@ -44,9 +44,9 @@ server {
           proxy_set_header Connection "upgrade"; 
         }
 
-				#####rewrite ^$ /galaxypath/ last;
+	#####rewrite ^$ /galaxypath/ last;
         #####rewrite ^/$ /galaxypath/ last;
-				####rewrite ^/myg$ /galaxypath/ last;
+	####rewrite ^/myg$ /galaxypath/ last;
         ####rewrite ^/myg/$ /galaxypath/ last;
         ####rewrite ^/galaxypath$ /galaxypath/ last;
 

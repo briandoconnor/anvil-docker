@@ -37,6 +37,7 @@ RUN sed -i 's/alwaysSaveHistory="0"/alwaysSaveHistory="1"/g'  $RSTUDIO_USERSETTI
 && sed -i 's/loadRData="0"/loadRData="1"/g' $RSTUDIO_USERSETTING \
 && sed -i 's/saveAction="0"/saveAction="1"/g' $RSTUDIO_USERSETTING
 
+## TODO: I think the s/127.0.0.1:8080/0.0.0.0:8001 needs to be removed, I think this is causing the problems  with sockets within the docker 
 RUN git clone -b release_20.01 https://github.com/galaxyproject/galaxy.git \
 && cp /galaxy/config/galaxy.yml.sample /galaxy/config/galaxy.yml \
 && sed -i 's/127.0.0.1:8080/0.0.0.0:8001/g' /galaxy/config/galaxy.yml \
@@ -49,6 +50,7 @@ ADD finish /etc/services.d/galaxy/finish
 ADD run /etc/services.d/galaxy/run
 
 ## setup nginx
+# TODO: shift this back to 127.0.0.1
 RUN sed -i 's/0.0.0.0:8001/0.0.0.0:8080/g' /galaxy/config/galaxy.yml
 RUN apt-get update && apt-get install -yq --no-install-recommends nginx
 
@@ -57,8 +59,10 @@ RUN apt-get update && apt-get install -yq --no-install-recommends vim
 
 # /proxy/anvil-stage-demo/556f079a44bc/rstudio
 ADD default /etc/nginx/sites-available/default
+ADD default /etc/nginx/default.back
 
 ADD index.nginx-debian.html /var/www/html/index.nginx-debian.html
+ADD index.nginx-debian.html /var/www/index.nginx-debian.html.back
 
 ADD rollback.sh /root/
 

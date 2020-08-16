@@ -41,22 +41,24 @@ echo "  path: $path"
 # /proxy/anvil-stage-demo/saturn-e666d1b3-bca3-48d8-86b5-fa14ea944c20/rstudio/
 mkdir -p /galaxy/var/
 cp /galaxy/config/galaxy.yml /galaxy/galaxy.yml.back
-if grep -q '/proxy/anvil-stage-demo/saturn-' "/galaxy/config/galaxy.yml"; then
-  echo "FOUND";
-  sed -i "s|  mount: /.*=galaxy.webapps.galaxy.buildapp:uwsgi_app()|  mount: /${path}=galaxy.webapps.galaxy.buildapp:uwsgi_app()|g" /galaxy/config/galaxy.yml
-fi
+#if grep -q '/proxy/anvil-stage-demo/saturn-' "/galaxy/config/galaxy.yml"; then
+#  echo "FOUND";
+# if restarting
+sed -i "s|  mount: /.*=galaxy.webapps.galaxy.buildapp:uwsgi_app()|  mount: /${path}=galaxy.webapps.galaxy.buildapp:uwsgi_app()|g" /galaxy/config/galaxy.yml
+#fi
 sed -i "s|manage-script-name: false|manage-script-name: true\n  socket: /galaxy/var/uwsgi.sock\n  chmod-socket: 666|g" /galaxy/config/galaxy.yml
 sed -i "s|  module: galaxy.webapps.galaxy.buildapp:uwsgi_app()|  #module: galaxy.webapps.galaxy.buildapp:uwsgi_app()|g" /galaxy/config/galaxy.yml
 sed -i "s|#mount: /galaxy=galaxy.webapps.galaxy.buildapp:uwsgi_app()|mount: /${path}=galaxy.webapps.galaxy.buildapp:uwsgi_app()|g" /galaxy/config/galaxy.yml
 
 # deal with nginx settings
-cp /etc/nginx/sites-available/default /etc/nginx/default.back
+#cp /etc/nginx/sites-available/default /etc/nginx/default.back
+cp /etc/nginx/default.back /etc/nginx/sites-available/default
 sed -i "s|galaxypath|${path}|g" /etc/nginx/sites-available/default
 
 # deal with html
-cp /var/www/html/index.nginx-debian.html /var/www/index.nginx-debian.html.back
+#cp /var/www/html/index.nginx-debian.html /var/www/index.nginx-debian.html.back
+cp /var/www/index.nginx-debian.html.back /var/www/html/index.nginx-debian.html
 sed -i "s|galaxypath|${path}|g" /var/www/html/index.nginx-debian.html
-
 
 /etc/init.d/nginx restart
 
