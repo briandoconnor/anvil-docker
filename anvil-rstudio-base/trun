@@ -3,5 +3,7 @@
 ## load /etc/environment vars first:
 for line in $( cat /etc/environment ) ; do export $line > /dev/null; done
 
-exec /terminal/ttyd bash
+cd /home/rstudio
+exec /terminal/ttyd -u 1000 -g 1000 sudo -u rstudio -H bash
+
 
