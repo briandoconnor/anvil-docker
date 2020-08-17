@@ -35,10 +35,12 @@ It also works to just go to local host on 8001 (nginx rewrites the URLs)
 See https://github.com/microsoft/node-pty/tree/master/examples/electron
 for the code I'm using for a basic terminal
 
-See https://github.com/tsl0922/ttyd/wiki/Example-Usage for a better version
+See also:
+* https://github.com/lovefishs/xterm-example
+
 
 ```
-apt-get update; apt-get install build-essential python3-dev nodejs 
+apt-get update; apt-get install build-essential python3-dev nodejs
 
 
 ```
